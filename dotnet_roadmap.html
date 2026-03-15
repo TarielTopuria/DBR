@@ -1,0 +1,1557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>.NET Backend Mastery Roadmap</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Syne:wght@400;600;700;800&display=swap');
+
+  :root {
+    --bg: #0a0c10;
+    --surface: #0f1117;
+    --surface2: #161b24;
+    --border: #1e2530;
+    --border2: #252d3a;
+    --text: #c9d1d9;
+    --muted: #6e7c8e;
+    --accent: #58a6ff;
+    --accent2: #79c0ff;
+    --green: #3fb950;
+    --yellow: #e3b341;
+    --orange: #f0883e;
+    --red: #f85149;
+    --purple: #bc8cff;
+    --teal: #39d353;
+    --pink: #ff7b72;
+
+    --phase0: #58a6ff;
+    --phase1: #3fb950;
+    --phase2: #e3b341;
+    --phase3: #bc8cff;
+    --phase4: #39d353;
+    --phase5: #f0883e;
+    --phase6: #ff7b72;
+    --phase7: #56d364;
+    --phase8: #a371f7;
+    --phase9: #79c0ff;
+    --phase10: #ffa657;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+
+  /* HEADER */
+  .header {
+    background: linear-gradient(135deg, #0d1117 0%, #161b24 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 40px 48px 36px;
+    position: relative;
+    overflow: hidden;
+  }
+  .header::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+    background: radial-gradient(ellipse 800px 400px at 60% 50%, rgba(88, 166, 255, 0.04) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .header-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(88, 166, 255, 0.08);
+    border: 1px solid rgba(88, 166, 255, 0.2);
+    border-radius: 20px;
+    padding: 4px 14px;
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+  .header-badge::before { content: '◆'; font-size: 8px; }
+  .header h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(28px, 4vw, 48px);
+    font-weight: 800;
+    color: #e6edf3;
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+    margin-bottom: 12px;
+  }
+  .header h1 span { color: var(--accent); }
+  .header-sub {
+    color: var(--muted);
+    font-size: 12px;
+    max-width: 600px;
+  }
+  .header-meta {
+    display: flex; gap: 24px; flex-wrap: wrap;
+    margin-top: 24px;
+  }
+  .meta-pill {
+    display: flex; align-items: center; gap: 6px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 6px 12px;
+    font-size: 11px;
+    color: var(--muted);
+  }
+  .meta-pill .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); }
+
+  /* REORDER NOTICE */
+  .reorder-notice {
+    margin: 32px 48px;
+    background: rgba(188, 140, 255, 0.05);
+    border: 1px solid rgba(188, 140, 255, 0.2);
+    border-left: 3px solid var(--purple);
+    border-radius: 8px;
+    padding: 20px 24px;
+  }
+  .reorder-notice h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--purple);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 12px;
+  }
+  .reorder-list { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+  .reorder-list li {
+    display: flex; align-items: flex-start; gap: 10px;
+    color: var(--muted); font-size: 12px;
+  }
+  .reorder-list li::before { content: '→'; color: var(--purple); flex-shrink: 0; }
+  .reorder-list li strong { color: var(--text); }
+
+  /* DSA BANNER */
+  .dsa-banner {
+    margin: 0 48px 32px;
+    background: linear-gradient(135deg, rgba(63, 185, 80, 0.08), rgba(57, 211, 83, 0.04));
+    border: 1px solid rgba(63, 185, 80, 0.2);
+    border-radius: 8px;
+    padding: 16px 20px;
+    display: flex; align-items: center; gap: 14px;
+  }
+  .dsa-banner .icon { font-size: 20px; }
+  .dsa-banner strong { color: var(--green); font-size: 12px; }
+  .dsa-banner span { color: var(--muted); font-size: 11px; }
+
+  /* NAVIGATION */
+  .nav {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(10, 12, 16, 0.95);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 48px;
+    display: flex; gap: 0; overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .nav::-webkit-scrollbar { display: none; }
+  .nav-item {
+    display: flex; align-items: center; gap: 6px;
+    padding: 14px 16px;
+    font-size: 11px;
+    color: var(--muted);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+    white-space: nowrap;
+    text-decoration: none;
+  }
+  .nav-item:hover { color: var(--text); }
+  .nav-item .phase-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+
+  /* MAIN CONTENT */
+  .main { padding: 40px 48px 80px; max-width: 1200px; }
+
+  /* PHASE CARD */
+  .phase {
+    margin-bottom: 48px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    background: var(--surface);
+  }
+  .phase-header {
+    padding: 24px 28px;
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: flex-start; gap: 16px;
+    position: relative;
+    cursor: pointer;
+  }
+  .phase-header::before {
+    content: '';
+    position: absolute; left: 0; top: 0; bottom: 0;
+    width: 3px;
+  }
+  .phase-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 4px;
+    flex-shrink: 0;
+  }
+  .phase-title-wrap { flex: 1; }
+  .phase-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: #e6edf3;
+    margin-bottom: 4px;
+  }
+  .phase-subtitle { color: var(--muted); font-size: 11px; }
+  .phase-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 10px; }
+  .phase-tag {
+    font-size: 10px;
+    padding: 2px 8px;
+    border-radius: 3px;
+    border: 1px solid;
+    opacity: 0.8;
+  }
+  .phase-toggle {
+    color: var(--muted); font-size: 18px;
+    transition: transform 0.3s;
+    flex-shrink: 0;
+    user-select: none;
+  }
+  .phase.collapsed .phase-toggle { transform: rotate(-90deg); }
+
+  /* PHASE BODY */
+  .phase-body { padding: 24px 28px; }
+  .phase.collapsed .phase-body { display: none; }
+
+  /* TOPIC GRID */
+  .topic-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+  .topic-card {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px;
+    transition: border-color 0.2s;
+  }
+  .topic-card:hover { border-color: var(--border2); }
+  .topic-card-header {
+    display: flex; align-items: center; gap: 8px;
+    margin-bottom: 10px;
+  }
+  .topic-icon { font-size: 14px; }
+  .topic-name {
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    color: #e6edf3;
+  }
+  .topic-priority {
+    font-size: 9px;
+    padding: 1px 6px;
+    border-radius: 3px;
+    margin-left: auto;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+  }
+  .priority-core { background: rgba(248, 81, 73, 0.15); color: var(--red); border: 1px solid rgba(248, 81, 73, 0.3); }
+  .priority-important { background: rgba(227, 179, 65, 0.1); color: var(--yellow); border: 1px solid rgba(227, 179, 65, 0.25); }
+  .priority-nice { background: rgba(110, 124, 142, 0.1); color: var(--muted); border: 1px solid var(--border); }
+
+  .topic-desc { color: var(--muted); font-size: 11px; margin-bottom: 12px; line-height: 1.6; }
+
+  /* RESOURCES */
+  .resources-label {
+    font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--muted); margin-bottom: 6px;
+  }
+  .resource-list { list-style: none; display: flex; flex-direction: column; gap: 4px; }
+  .resource-list li a {
+    display: flex; align-items: center; gap: 7px;
+    color: var(--accent);
+    text-decoration: none;
+    font-size: 11px;
+    padding: 4px 8px;
+    border-radius: 4px;
+    transition: background 0.15s;
+  }
+  .resource-list li a:hover { background: rgba(88, 166, 255, 0.08); }
+  .resource-list li a::before {
+    content: '↗';
+    font-size: 10px;
+    opacity: 0.6;
+    flex-shrink: 0;
+  }
+  .resource-type {
+    font-size: 9px; padding: 1px 5px; border-radius: 3px;
+    margin-left: auto; flex-shrink: 0;
+  }
+  .rt-doc { background: rgba(88, 166, 255, 0.1); color: var(--accent); }
+  .rt-video { background: rgba(248, 81, 73, 0.1); color: #ff9492; }
+  .rt-course { background: rgba(57, 211, 83, 0.1); color: var(--green); }
+  .rt-book { background: rgba(188, 140, 255, 0.1); color: var(--purple); }
+  .rt-repo { background: rgba(110, 124, 142, 0.1); color: var(--muted); }
+  .rt-blog { background: rgba(227, 179, 65, 0.1); color: var(--yellow); }
+
+  /* SUBTOPICS LIST */
+  .subtopics {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 6px;
+    margin-bottom: 14px;
+  }
+  .subtopic {
+    background: rgba(30, 37, 48, 0.6);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 5px 10px;
+    font-size: 11px;
+    color: var(--muted);
+    display: flex; align-items: center; gap: 6px;
+  }
+  .subtopic::before { content: '·'; color: var(--border2); }
+
+  /* INTERVIEW TIPS */
+  .interview-tip {
+    background: rgba(240, 136, 62, 0.06);
+    border: 1px solid rgba(240, 136, 62, 0.2);
+    border-radius: 6px;
+    padding: 12px 16px;
+    margin-top: 16px;
+    font-size: 11px;
+    color: #f0883e;
+    display: flex; gap: 10px;
+  }
+  .interview-tip::before { content: '💡'; flex-shrink: 0; }
+
+  /* TOOLS SECTION */
+  .tools-section {
+    margin: 0 48px 48px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    background: var(--surface);
+  }
+  .tools-header {
+    padding: 20px 24px;
+    border-bottom: 1px solid var(--border);
+    background: linear-gradient(90deg, rgba(88, 166, 255, 0.04), transparent);
+  }
+  .tools-header h2 {
+    font-family: 'Syne', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: #e6edf3;
+  }
+  .tools-header p { color: var(--muted); font-size: 11px; margin-top: 4px; }
+  .tools-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 1px;
+    background: var(--border);
+  }
+  .tool-item {
+    background: var(--surface);
+    padding: 16px 20px;
+  }
+  .tool-name {
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    color: #e6edf3;
+    margin-bottom: 4px;
+  }
+  .tool-phase { font-size: 10px; color: var(--accent); margin-bottom: 6px; }
+  .tool-desc { font-size: 11px; color: var(--muted); line-height: 1.5; }
+  .tool-link { display: inline-flex; align-items: center; gap: 4px; font-size: 11px; color: var(--accent); text-decoration: none; margin-top: 6px; }
+  .tool-link:hover { text-decoration: underline; }
+
+  /* FOOTER */
+  .footer {
+    margin: 0 48px 40px;
+    padding: 20px 24px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--surface);
+    display: flex; gap: 24px; flex-wrap: wrap; justify-content: space-between;
+    align-items: center;
+  }
+  .footer p { color: var(--muted); font-size: 11px; }
+  .footer strong { color: var(--text); }
+
+  /* PHASE COLOR CLASSES */
+  .c0 { color: var(--phase0); }
+  .c1 { color: var(--phase1); }
+  .c2 { color: var(--phase2); }
+  .c3 { color: var(--phase3); }
+  .c4 { color: var(--phase4); }
+  .c5 { color: var(--phase5); }
+  .c6 { color: var(--phase6); }
+  .c7 { color: var(--phase7); }
+  .c8 { color: var(--phase8); }
+  .c9 { color: var(--phase9); }
+  .c10 { color: var(--phase10); }
+
+  .bg0 { background: rgba(88, 166, 255, 0.1); border-color: rgba(88, 166, 255, 0.25); }
+  .bg1 { background: rgba(63, 185, 80, 0.1); border-color: rgba(63, 185, 80, 0.25); }
+  .bg2 { background: rgba(227, 179, 65, 0.1); border-color: rgba(227, 179, 65, 0.25); }
+  .bg3 { background: rgba(188, 140, 255, 0.1); border-color: rgba(188, 140, 255, 0.25); }
+  .bg4 { background: rgba(57, 211, 83, 0.1); border-color: rgba(57, 211, 83, 0.25); }
+  .bg5 { background: rgba(240, 136, 62, 0.1); border-color: rgba(240, 136, 62, 0.25); }
+  .bg6 { background: rgba(255, 123, 114, 0.1); border-color: rgba(255, 123, 114, 0.25); }
+  .bg7 { background: rgba(86, 211, 100, 0.1); border-color: rgba(86, 211, 100, 0.25); }
+  .bg8 { background: rgba(163, 113, 247, 0.1); border-color: rgba(163, 113, 247, 0.25); }
+  .bg9 { background: rgba(121, 192, 255, 0.1); border-color: rgba(121, 192, 255, 0.25); }
+  .bg10 { background: rgba(255, 166, 87, 0.1); border-color: rgba(255, 166, 87, 0.25); }
+
+  .b0::before { background: var(--phase0); }
+  .b1::before { background: var(--phase1); }
+  .b2::before { background: var(--phase2); }
+  .b3::before { background: var(--phase3); }
+  .b4::before { background: var(--phase4); }
+  .b5::before { background: var(--phase5); }
+  .b6::before { background: var(--phase6); }
+  .b7::before { background: var(--phase7); }
+  .b8::before { background: var(--phase8); }
+  .b9::before { background: var(--phase9); }
+  .b10::before { background: var(--phase10); }
+
+  @media (max-width: 768px) {
+    .header, .reorder-notice, .dsa-banner, .main, .tools-section, .footer { padding-left: 20px; padding-right: 20px; }
+    .reorder-notice, .dsa-banner, .tools-section, .footer { margin-left: 20px; margin-right: 20px; }
+    .nav { padding: 0 20px; }
+    .topic-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-badge">Interview-Ready Roadmap</div>
+  <h1>.NET Backend <span>Mastery</span></h1>
+  <p class="header-sub">A reordered, resource-linked learning path for C# / ASP.NET Core — from foundations to production-grade distributed systems.</p>
+  <div class="header-meta">
+    <div class="meta-pill"><span class="dot"></span> All resources free</div>
+    <div class="meta-pill">11 Phases · 50+ Topics</div>
+    <div class="meta-pill">Interview focus</div>
+    <div class="meta-pill">DSA: continuous parallel track</div>
+  </div>
+</div>
+
+<!-- REORDER NOTICE -->
+<div class="reorder-notice">
+  <h3>⟳ Reordering Rationale</h3>
+  <ul class="reorder-list">
+    <li><strong>Phase 0 internals reordered:</strong> C# syntax → OOP → SOLID → async/await → Memory/GC → Design Patterns → LINQ. SOLID before patterns because patterns <em>are</em> SOLID applied.</li>
+    <li><strong>Testing (was Phase 5) moved to Phase 4</strong> — you must test your architecture decisions as you make them. Testing after Phase 3 (Architecture) lets you practice TDD/integration testing on Clean Architecture immediately.</li>
+    <li><strong>Security (was Phase 4) becomes Phase 5</strong> — JWT/OAuth choices are architectural, but you need a tested, running system before bolt-on security makes sense.</li>
+    <li><strong>Event-Driven (Phase 8) placed before Inter-service comm (Phase 9)</strong> — messaging is the foundation of async inter-service patterns like SAGA. Learn the bus before learning the router.</li>
+    <li><strong>DSA is a continuous parallel track</strong> — treat it like daily practice alongside every phase, not a topic you "complete."</li>
+  </ul>
+</div>
+
+<!-- DSA BANNER -->
+<div class="dsa-banner">
+  <span class="icon">🔄</span>
+  <div>
+    <strong>⚡ DSA — Continuous Parallel Track</strong><br>
+    <span>Do 1–2 LeetCode problems daily throughout every phase. Target: Easy → Medium (arrays, trees, graphs, DP). Interviews test this independently of your .NET knowledge.</span>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav class="nav">
+  <a class="nav-item" href="#phase0"><span class="phase-dot" style="background:var(--phase0)"></span>0·Foundations</a>
+  <a class="nav-item" href="#phase1"><span class="phase-dot" style="background:var(--phase1)"></span>1·ASP.NET</a>
+  <a class="nav-item" href="#phase2"><span class="phase-dot" style="background:var(--phase2)"></span>2·Data Access</a>
+  <a class="nav-item" href="#phase3"><span class="phase-dot" style="background:var(--phase3)"></span>3·Architecture</a>
+  <a class="nav-item" href="#phase4"><span class="phase-dot" style="background:var(--phase4)"></span>4·Testing</a>
+  <a class="nav-item" href="#phase5"><span class="phase-dot" style="background:var(--phase5)"></span>5·Security</a>
+  <a class="nav-item" href="#phase6"><span class="phase-dot" style="background:var(--phase6)"></span>6·Observability</a>
+  <a class="nav-item" href="#phase7"><span class="phase-dot" style="background:var(--phase7)"></span>7·Caching</a>
+  <a class="nav-item" href="#phase8"><span class="phase-dot" style="background:var(--phase8)"></span>8·Events</a>
+  <a class="nav-item" href="#phase9"><span class="phase-dot" style="background:var(--phase9)"></span>9·Inter-service</a>
+  <a class="nav-item" href="#phase10"><span class="phase-dot" style="background:var(--phase10)"></span>10·Containers</a>
+  <a class="nav-item" href="#tools"><span class="phase-dot" style="background:var(--muted)"></span>Tools</a>
+</nav>
+
+<div class="main">
+
+<!-- ═══════════════════════════════════════════ PHASE 0 -->
+<div class="phase" id="phase0">
+  <div class="phase-header b0" onclick="togglePhase(this)">
+    <div class="phase-num bg0 c0">Phase 0</div>
+    <div class="phase-title-wrap">
+      <div class="phase-title">Foundations</div>
+      <div class="phase-subtitle">Write correct C# and reason about code before touching any framework</div>
+      <div class="phase-tags">
+        <span class="phase-tag bg0 c0">C# language</span>
+        <span class="phase-tag bg0 c0">OOP · SOLID</span>
+        <span class="phase-tag bg0 c0">async/await</span>
+        <span class="phase-tag bg0 c0">Memory · GC</span>
+        <span class="phase-tag bg0 c0">23 Design Patterns</span>
+        <span class="phase-tag bg0 c0">LINQ</span>
+      </div>
+    </div>
+    <span class="phase-toggle">▾</span>
+  </div>
+  <div class="phase-body">
+
+    <div class="topic-grid">
+
+      <!-- C# Language -->
+      <div class="topic-card">
+        <div class="topic-card-header">
+          <span class="topic-icon">⚙️</span>
+          <span class="topic-name">C# Language Core</span>
+          <span class="topic-priority priority-core">CORE</span>
+        </div>
+        <div class="topic-desc">Types, generics, records, pattern matching, nullable reference types, expression-bodied members, tuples. Modern C# 10–12 features used in interviews.</div>
+        <div class="resources-label">Free Resources</div>
+        <ul class="resource-list">
+          <li><a href="https://learn.microsoft.com/en-us/dotnet/csharp/tour-of-csharp/" target="_blank">Microsoft C# Language Tour <span class="resource-type rt-doc">DOCS</span></a></li>
+          <li><a href="https://www.youtube.com/c/IAmTimCorey" target="_blank">IAmTimCorey (Tim Corey) — YouTube <span class="resource-type rt-video">VIDEO</span></a></li>
+          <li><a href="https://dotnet.microsoft.com/en-us/learn/dotnet/hello-world-tutorial/intro" target="_blank">Microsoft .NET Learn Path <span class="resource-type rt-course">COURSE</span></a></li>
+          <li><a href="https://www.youtube.com/@nickchapsas" target="_blank">Nick Chapsas — C# Deep Dives <span class="resource-type rt-video">VIDEO</span></a></li>
+        </ul>
+      </div>
+
+      <!-- OOP -->
+      <div class="topic-card">
+        <div class="topic-card-header">
+          <span class="topic-icon">🧱</span>
+          <span class="topic-name">OOP Paradigms</span>
+          <span class="topic-priority priority-core">CORE</span>
+        </div>
+        <div class="topic-desc">Encapsulation, inheritance, polymorphism, abstraction. Composition over inheritance. Interface vs abstract class decisions. Real C# interview scenarios.</div>
+        <div class="resources-label">Free Resources</div>
+        <ul class="resource-list">
+          <li><a href="https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/object-oriented/" target="_blank">OOP in C# — Microsoft Docs <span class="resource-type rt-doc">DOCS</span></a></li>
+          <li><a href="https://refactoring.guru/refactoring/what-is-refactoring" target="_blank">Refactoring.guru — OOP Foundations <span class="resource-type rt-blog">BLOG</span></a></li>
+          <li><a href="https://www.youtube.com/watch?v=pTB0EiLXUC8" target="_blank">OOP Concepts in C# — freeCodeCamp <span class="resource-type rt-video">VIDEO</span></a></li>
+        </ul>
+      </div>
+
+      <!-- SOLID -->
+      <div class="topic-card">
+        <div class="topic-card-header">
+          <span class="topic-icon">🏗️</span>
+          <span class="topic-name">SOLID Principles</span>
+          <span class="topic-priority priority-core">CORE</span>
+        </div>
+        <div class="topic-desc">SRP, OCP, LSP, ISP, DIP with C# examples. Understand violations before solutions. SOLID violations are a top interview discussion topic.</div>
+        <div class="resources-label">Free Resources</div>
+        <ul class="resource-list">
+          <li><a href="https://www.youtube.com/watch?v=_jDNAMBE6Sg" target="_blank">SOLID Principles in C# — Kudvenkat <span class="resource-type rt-video">VIDEO</span></a></li>
+          <li><a href="https://learn.microsoft.com/en-us/archive/msdn-magazine/2014/may/csharp-best-practices-dangers-of-violating-solid-principles-in-csharp" target="_blank">SOLID in C# — MSDN Magazine <span class="resource-type rt-blog">BLOG</span></a></li>
+          <li><a href="https://www.digitalocean.com/community/conceptual-articles/s-o-l-i-d-the-first-five-principles-of-object-oriented-design" target="_blank">SOLID Deep Dive — DigitalOcean <span class="resource-type rt-blog">BLOG</span></a></li>
+          <li><a href="https://www.youtube.com/watch?v=HLFbeC78YlU" target="_blank">SOLID Principles — Milan Jovanović <span class="resource-type rt-video">VIDEO</span></a></li>
+        </ul>
+      </div>
+
+      <!-- async/await -->
+      <div class="topic-card">
+        <div class="topic-card-header">
+          <span class="topic-icon">⚡</span>
+          <span class="topic-name">async/await & Threading</span>
+          <span class="topic-priority priority-core">CORE</span>
+        </div>
+        <div class="topic-desc">Task, ValueTask, ConfigureAwait, deadlocks, SynchronizationContext, thread pool, CancellationToken, Parallel.ForEach vs async. Huge interview topic.</div>
+        <div class="resources-label">Free Resources</div>
+        <ul class="resource-list">
+          <li><a href="https://blog.stephencleary.com/2012/02/async-and-await.html" target="_blank">Stephen Cleary — Async/Await Intro <span class="resource-type rt-blog">BLOG</span></a></li>
+          <li><a href="https://blog.stephencleary.com/" target="_blank">Stephen Cleary's Blog (async bible) <span class="resource-type rt-blog">BLOG</span></a></li>
+          <li><a href="https://learn.microsoft.com/en-us/dotnet/csharp/asynchronous-programming/" target="_blank">Async Programming — Microsoft Docs <span class="resource-type rt-doc">DOCS</span></a></li>
+          <li><a href="https://www.youtube.com/watch?v=il9gl8MH17s" target="_blank">Async Deep Dive — Nick Chapsas <span class="resource-type rt-video">VIDEO</span></a></li>
+        </ul>
+      </div>
+
+      <!-- IDisposable / GC -->
+      <div class="topic-card">
+        <div class="topic-card-header">
+          <span class="topic-icon">🗑️</span>
+          <span class="topic-name">IDisposable, Memory & GC</span>
+          <span class="topic-priority priority-core">CORE</span>
+        </div>
+        <div class="topic-desc">Dispose pattern, using statement, finalizers, GC generations, LOH, Span&lt;T&gt;, Memory&lt;T&gt;, ArrayPool. Memory leaks in async code. Common interview gotchas.</div>
+        <div class="resources-label">Free Resources</div>
+        <ul class="resource-list">
+          <li><a href="https://learn.microsoft.com/en-us/dotnet/standard/garbage-collection/" target="_blank">GC Fundamentals — Microsoft Docs <span class="resource-type rt-doc">DOCS</span></a></li>
+          <li><a href="https://learn.microsoft.com/en-us/dotnet/standard/design-guidelines/dispose-pattern" target="_blank">Dispose Pattern — Microsoft Docs <span class="resource-type rt-doc">DOCS</span></a></li>
+          <li><a href="https://www.youtube.com/watch?v=iqt1_UDPC-M" target="_blank">Memory Management Deep Dive — Nick Chapsas <span class="resource-type rt-video">VIDEO</span></a></li>
+        </ul>
+      </div>
+
+      <!-- LINQ -->
+      <div class="topic-card">
+        <div class="topic-card-header">
+          <span class="topic-icon">🔍</span>
+          <span class="topic-name">LINQ</span>
+          <span class="topic-priority priority-core">CORE</span>
+        </div>
+        <div class="topic-desc">Deferred execution, method vs query syntax, IEnumerable vs IQueryable, SelectMany, GroupBy, Aggregate, LINQ performance pitfalls. EF Core uses IQueryable — understand this now.</div>
+        <div class="resources-label">Free Resources</div>
+        <ul class="resource-list">
+          <li><a href="https://learn.microsoft.com/en-us/dotnet/csharp/linq/" target="_blank">LINQ — Microsoft Docs <span class="resource-type rt-doc">DOCS</span></a></li>
+          <li><a href="https://www.linqpad.net/" target="_blank">LINQPad (free tier — run LINQ live) <span class="resource-type rt-course">TOOL</span></a></li>
+          <li><a href="https://www.youtube.com/watch?v=5l2qA3Pc83M" target="_blank">LINQ Full Course — IAmTimCorey <span class="resource-type rt-video">VIDEO</span></a></li>
+          <li><a href="https://101linq.azurewebsites.net/" target="_blank">101 LINQ Samples — Microsoft <span class="resource-type rt-doc">DOCS</span></a></li>
+        </ul>
+      </div>
+
+    </div>
+
+    <!-- DESIGN PATTERNS -->
+    <div style="margin-bottom:16px">
+      <div style="font-family:'Syne',sans-serif;font-size:15px;font-weight:700;color:#e6edf3;margin-bottom:8px;">
+        🎨 Design Patterns — All 23 GoF
+        <span class="topic-priority priority-core" style="margin-left:10px;font-size:10px;">CORE</span>
+      </div>
+      <p style="color:var(--muted);font-size:11px;margin-bottom:12px;">Learn patterns in order: Creational → Structural → Behavioral. For each: understand the problem it solves, not just the class diagram.</p>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:16px;">
+      <!-- Creational -->
+      <div class="topic-card">
+        <div class="topic-card-header">
+          <span class="topic-icon">🏭</span>
+          <span class="topic-name">Creational (5)</span>
+          <span class="topic-priority priority-core">CORE</span>
+        </div>
+        <div class="subtopics">
+          <div class="subtopic">Factory Method</div>
+          <div class="subtopic">Abstract Factory</div>
+          <div class="subtopic">Singleton</div>
+          <div class="subtopic">Prototype</div>
+          <div class="subtopic">Builder</div>
+        </div>
+        <div class="topic-desc" style="margin-bottom:8px">Singleton + Factory are the #1 interview pair. Know thread-safe Singleton variants. Builder vs telescoping constructors.</div>
+      </div>
+      <!-- Structural -->
+      <div class="topic-card">
+        <div class="topic-card-header">
+          <span class="topic-icon">🔩</span>
+          <span class="topic-name">Structural (7)</span>
+          <span class="topic-priority priority-core">CORE</span>
+        </div>
+        <div class="subtopics">
+          <div class="subtopic">Adapter</div>
+          <div class="subtopic">Bridge</div>
+          <div class="subtopic">Composite</div>
+          <div class="subtopic">Decorator</div>
+          <div class="subtopic">Facade</div>
+          <div class="subtopic">Flyweight</div>
+          <div class="subtopic">Proxy</div>
+        </div>
+        <div class="topic-desc" style="margin-bottom:8px">Decorator and Proxy are everywhere in ASP.NET (middleware, DI wrappers). Facade shows up in service layer design.</div>
+      </div>
+      <!-- Behavioral -->
+      <div class="topic-card">
+        <div class="topic-card-header">
+          <span class="topic-icon">🔄</span>
+          <span class="topic-name">Behavioral (11)</span>
+          <span class="topic-priority priority-core">CORE</span>
+        </div>
+        <div class="subtopics">
+          <div class="subtopic">Chain of Resp.</div>
+          <div class="subtopic">Command</div>
+          <div class="subtopic">Interpreter</div>
+          <div class="subtopic">Iterator</div>
+          <div class="subtopic">Mediator</div>
+          <div class="subtopic">Memento</div>
+          <div class="subtopic">Observer</div>
+          <div class="subtopic">State</div>
+          <div class="subtopic">Strategy</div>
+          <div class="subtopic">Template Method</div>
+          <div class="subtopic">Visitor</div>
+        </div>
+        <div class="topic-desc" style="margin-bottom:8px">Strategy, Observer, and Mediator appear constantly. Chain of Responsibility = ASP.NET middleware. Command = CQRS.</div>
+      </div>
+    </div>
+
+    <div class="topic-card" style="margin-bottom:16px">
+      <div class="topic-card-header">
+        <span class="topic-icon">📚</span>
+        <span class="topic-name">Design Pattern Resources</span>
+      </div>
+      <ul class="resource-list">
+        <li><a href="https://refactoring.guru/design-patterns" target="_blank">Refactoring.guru — All 23 Patterns with diagrams + C# code <span class="resource-type rt-blog">BEST FREE</span></a></li>
+        <li><a href="https://www.dofactory.com/net/design-patterns" target="_blank">DoFactory — C# Pattern Implementations <span class="resource-type rt-doc">DOCS</span></a></li>
+        <li><a href="https://github.com/KevinDockx/CSharpDesignPatterns" target="_blank">Kevin Dockx — C# Patterns GitHub <span class="resource-type rt-repo">REPO</span></a></li>
+        <li><a href="https://www.youtube.com/watch?v=NU_1StN5Tkk" target="_blank">Design Patterns — Christopher Okhravi (Theory) <span class="resource-type rt-video">VIDEO</span></a></li>
+        <li><a href="https://www.youtube.com/watch?v=tv-_1er1mWI" target="_blank">Design Patterns Full — freeCodeCamp <span class="resource-type rt-video">VIDEO</span></a></li>
+      </ul>
+    </div>
+
+    <div class="interview-tip">Key interview signal: Interviewers don't just ask "describe Singleton." They ask "when would you NOT use Singleton?" and "how does Decorator differ from Inheritance?" Practice explaining tradeoffs, not just implementations.</div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ PHASE 1 -->
+<div class="phase" id="phase1">
+  <div class="phase-header b1" onclick="togglePhase(this)">
+    <div class="phase-num bg1 c1">Phase 1</div>
+    <div class="phase-title-wrap">
+      <div class="phase-title">ASP.NET Core Fundamentals</div>
+      <div class="phase-subtitle">Understand how a request really flows end-to-end before building features</div>
+      <div class="phase-tags">
+        <span class="phase-tag bg1 c1">Middleware Pipeline</span>
+        <span class="phase-tag bg1 c1">Dependency Injection</span>
+        <span class="phase-tag bg1 c1">Service Lifetimes</span>
+        <span class="phase-tag bg1 c1">Action Filters</span>
+        <span class="phase-tag bg1 c1">MediatR Behaviors</span>
+      </div>
+    </div>
+    <span class="phase-toggle">▾</span>
+  </div>
+  <div class="phase-body">
+    <div class="topic-grid">
+      <div class="topic-card">
+        <div class="topic-card-header">
+          <span class="topic-icon">🚇</span>
+          <span class="topic-name">Middleware Pipeline</span>
+          <span class="topic-priority priority-core">CORE</span>
+        </div>
+        <div class="topic-desc">Request pipeline order, next() delegate, short-circuiting, custom middleware, exception handling middleware. Draw the pipeline from memory for interviews.</div>
+        <ul class="resource-list">
+          <li><a href="https://learn.microsoft.com/en-us/aspnet/core/fundamentals/middleware/" target="_blank">Middleware — Microsoft Docs <span class="resource-type rt-doc">DOCS</span></a></li>
+          <li><a href="https://www.youtube.com/watch?v=ZtmvMXyGKDg" target="_blank">Middleware Deep Dive — Nick Chapsas <span class="resource-type rt-video">VIDEO</span></a></li>
+        </ul>
+      </div>
+      <div class="topic-card">
+        <div class="topic-card-header">
+          <span class="topic-icon">💉</span>
+          <span class="topic-name">Dependency Injection</span>
+          <span class="topic-priority priority-core">CORE</span>
+        </div>
+        <div class="topic-desc">IServiceCollection, service registration, constructor injection. Captive dependency problem (injecting Scoped into Singleton). Build-time vs runtime service resolution.</div>
+        <ul class="resource-list">
+          <li><a href="https://learn.microsoft.com/en-us/aspnet/core/fundamentals/dependency-injection" target="_blank">DI in ASP.NET Core — Microsoft Docs <span class="resource-type rt-doc">DOCS</span></a></li>
+          <li><a href="https://www.youtube.com/watch?v=YR6HkvNBpX4" target="_blank">DI Container Deep Dive — Nick Chapsas <span class="resource-type rt-video">VIDEO</span></a></li>
+        </ul>
+      </div>
+      <div class="topic-card">
+        <div class="topic-card-header">
+          <span class="topic-icon">⏱️</span>
+          <span class="topic-name">Service Lifetimes</span>
+          <span class="topic-priority priority-core">CORE</span>
+        </div>
+        <div class="topic-desc">Singleton vs Scoped vs Transient. When each is appropriate. Pitfalls: Scoped DbContext in Singleton service, thread safety. The most common DI interview question.</div>
+        <ul class="resource-list">
+          <li><a href="https://learn.microsoft.com/en-us/dotnet/core/extensions/dependency-injection#service-lifetimes" target="_blank">Service Lifetimes — Microsoft Docs <span class="resource-type rt-doc">DOCS</span></a></li>
+          <li><a href="https://www.youtube.com/watch?v=tSSCMnJyGNU" target="_blank">Lifetime Pitfalls — Nick Chapsas <span class="resource-type rt-video">VIDEO</span></a></li>
+        </ul>
+      </div>
+      <div class="topic-card">
+        <div class="topic-card-header">
+          <span class="topic-icon">🔁</span>
+          <span class="topic-name">Delegates & Action Filters</span>
+          <span class="topic-priority priority-important">KEY</span>
+        </div>
+        <div class="topic-desc">Func/Action delegates, IActionFilter, IAsyncActionFilter, resource filters, exception filters. Execution order. Cross-cutting concerns without middleware.</div>
+        <ul class="resource-list">
+          <li><a href="https://learn.microsoft.com/en-us/aspnet/core/mvc/controllers/filters" target="_blank">Filters in ASP.NET Core — Microsoft Docs <span class="resource-type rt-doc">DOCS</span></a></li>
+          <li><a href="https://www.youtube.com/watch?v=P2bGjADgByc" target="_blank">Action Filters Explained — Milan Jovanović <span class="resource-type rt-video">VIDEO</span></a></li>
+        </ul>
+      </div>
+      <div class="topic-card">
+        <div class="topic-card-header">
+          <span class="topic-icon">📬</span>
+          <span class="topic-name">MediatR & Pipeline Behaviors</span>
+          <span class="topic-priority priority-important">KEY</span>
+        </div>
+        <div class="topic-desc">IPipelineBehavior&lt;,&gt;, validation behavior, logging behavior, transaction behavior. How MediatR pipeline differs from middleware. Connects directly to CQRS in Phase 3.</div>
+        <ul class="resource-list">
+          <li><a href="https://github.com/jbogard/MediatR" target="_blank">MediatR — Official GitHub <span class="resource-type rt-repo">REPO</span></a></li>
+          <li><a href="https://www.youtube.com/watch?v=YzOBrVlthMk" target="_blank">MediatR Pipeline Behaviors — Milan Jovanović <span class="resource-type rt-video">VIDEO</span></a></li>
+          <li><a href="https://jimmybogard.com/mediatr-pipeline-examples/" target="_blank">Jimmy Bogard's Blog — Pipeline Examples <span class="resource-type rt-blog">BLOG</span></a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="interview-tip">Be ready to draw the full request pipeline on a whiteboard: browser → Kestrel → middleware chain → routing → model binding → action filters → controller action → response pipeline.</div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ PHASE 2 -->
+<div class="phase" id="phase2">
+  <div class="phase-header b2" onclick="togglePhase(this)">
+    <div class="phase-num bg2 c2">Phase 2</div>
+    <div class="phase-title-wrap">
+      <div class="phase-title">Data Access & Persistence</div>
+      <div class="phase-subtitle">Make the database predictable — understand what queries EF Core generates</div>
+      <div class="phase-tags">
+        <span class="phase-tag bg2 c2">PostgreSQL</span>
+        <span class="phase-tag bg2 c2">EF Core</span>
+        <span class="phase-tag bg2 c2">Normalization</span>
+        <span class="phase-tag bg2 c2">Pagination</span>
+        <span class="phase-tag bg2 c2">Unit of Work</span>
+        <span class="phase-tag bg2 c2">Transactions</span>
+      </div>
+    </div>
+    <span class="phase-toggle">▾</span>
+  </div>
+  <div class="phase-body">
+    <div class="topic-grid">
+      <div class="topic-card">
+        <div class="topic-card-header">
+          <span class="topic-icon">🐘</span>
+          <span class="topic-name">PostgreSQL</span>
+          <span class="topic-priority priority-core">CORE</span>
+        </div>
+        <div class="topic-desc">Indexes (B-tree, partial, composite), EXPLAIN ANALYZE, CTEs, window functions, JSONB, constraints. SQL fluency is assumed in senior interviews.</div>
+        <ul class="resource-list">
+          <li><a href="https://www.postgresqltutorial.com/" target="_blank">PostgreSQL Tutorial — Complete Free Guide <span class="resource-type rt-course">COURSE</span></a></li>
+          <li><a href="https://use-the-index-luke.com/" target="_blank">Use The Index, Luke! — Index optimization <span class="resource-type rt-book">FREE BOOK</span></a></li>
+          <li><a href="https://pgexercises.com/" target="_blank">PostgreSQL Exercises — Interactive practice <span class="resource-type rt-course">COURSE</span></a></li>
+        </ul>
+      </div>
+      <div class="topic-card">
+        <div class="topic-card-header">
+          <span class="topic-icon">🗄️</span>
+          <span class="topic-name">Database Normalization</span>
+          <span class="topic-priority priority-core">CORE</span>
+        </div>
+        <div class="topic-desc">1NF–3NF, BCNF, denormalization tradeoffs. When to break normalization for read performance. A foundational interview question.</div>
+        <ul class="resource-list">
+          <li><a href="https://learn.microsoft.com/en-us/office/troubleshoot/access/database-normalization-description" target="_blank">DB Normalization — Microsoft Docs <span class="resource-type rt-doc">DOCS</span></a></li>
+          <li><a href="https://www.youtube.com/watch?v=GFQaEYEc8_8" target="_blank">Normalization 1NF–3NF — Decomplexify <span class="resource-type rt-video">VIDEO</span></a></li>
+        </ul>
+      </div>
+      <div class="topic-card">
+        <div class="topic-card-header">
+          <span class="topic-icon">🔗</span>
+          <span class="topic-name">Entity Framework Core</span>
+          <span class="topic-priority priority-core">CORE</span>
+        </div>
+        <div class="topic-desc">DbContext, migrations, fluent API, AsNoTracking, Include() N+1 problem, compiled queries, owned entities, value converters.</div>
+        <ul class="resource-list">
+          <li><a href="https://learn.microsoft.com/en-us/ef/core/" target="_blank">EF Core — Official Microsoft Docs <span class="resource-type rt-doc">DOCS</span></a></li>
+          <li><a href="https://www.youtube.com/watch?v=SryQxUeChMo" target="_blank">EF Core Full Course — Milan Jovanović <span class="resource-type rt-video">VIDEO</span></a></li>
+          <li><a href="https://github.com/dotnet/efcore" target="_blank">EF Core GitHub <span class="resource-type rt-repo">REPO</span></a></li>
+        </ul>
+      </div>
+      <div class="topic-card">
+        <div class="topic-card-header">
+          <span class="topic-icon">😴</span>
+          <span class="topic-name">Lazy Loading & N+1</span>
+          <span class="topic-priority priority-core">CORE</span>
+        </div>
+        <div class="topic-desc">Understand lazy vs eager vs explicit loading. N+1 query problem — how to detect with SQL logging, how to fix with .Include(). When lazy loading silently destroys performance.</div>
+        <ul class="resource-list">
+          <li><a href="https://learn.microsoft.com/en-us/ef/core/querying/related-data/" target="_blank">Related Data Loading — EF Core Docs <span class="resource-type rt-doc">DOCS</span></a></li>
+          <li><a href="https://www.youtube.com/watch?v=ExIgjrkiXa8" target="_blank">N+1 Problem in EF Core — Nick Chapsas <span class="resource-type rt-video">VIDEO</span></a></li>
+        </ul>
+      </div>
+      <div class="topic-card">
+        <div class="topic-card-header">
+          <span class="topic-icon">📄</span>
+          <span class="topic-name">Pagination</span>
+          <span class="topic-priority priority-important">KEY</span>
+        </div>
+        <div class="topic-desc">Offset vs cursor/keyset pagination. Why OFFSET degrades at scale. Implementing PagedResult&lt;T&gt;, IQueryable pagination, and cursor tokens.</div>
+        <ul class="resource-list">
+          <li><a href="https://use-the-index-luke.com/no-offset" target="_blank">No Offset — Why cursor pagination wins <span class="resource-type rt-blog">BLOG</span></a></li>
+          <li><a href="https://www.youtube.com/watch?v=RdRUGP4s4Is" target="_blank">Pagination in ASP.NET Core — Nick Chapsas <span class="resource-type rt-video">VIDEO</span></a></li>
+        </ul>
+      </div>
+      <div class="topic-card">
+        <div class="topic-card-header">
+          <span class="topic-icon">💼</span>
+          <span class="topic-name">Transactions & Unit of Work</span>
+          <span class="topic-priority priority-core">CORE</span>
+        </div>
+        <div class="topic-desc">ACID, isolation levels (read committed, serializable), optimistic vs pessimistic concurrency, IUnitOfWork pattern, DbContext as implicit UoW.</div>
+        <ul class="resource-list">
+          <li><a href="https://learn.microsoft.com/en-us/ef/core/saving/transactions" target="_blank">Transactions in EF Core — Microsoft Docs <span class="resource-type rt-doc">DOCS</span></a></li>
+          <li><a href="https://www.youtube.com/watch?v=2p7FPlBLaVU" target="_blank">Unit of Work Pattern — Milan Jovanović <span class="resource-type rt-video">VIDEO</span></a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="interview-tip">Always mention "I check the generated SQL" when discussing EF Core. Use .ToQueryString() or SQL logging. Interviewers love candidates who don't blindly trust the ORM.</div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ PHASE 3 -->
+<div class="phase" id="phase3">
+  <div class="phase-header b3" onclick="togglePhase(this)">
+    <div class="phase-num bg3 c3">Phase 3</div>
+    <div class="phase-title-wrap">
+      <div class="phase-title">Architecture Inside a Service</div>
+      <div class="phase-subtitle">Make complexity manageable — separate concerns so the system can grow</div>
+      <div class="phase-tags">
+        <span class="phase-tag bg3 c3">Clean Architecture</span>
+        <span class="phase-tag bg3 c3">DDD</span>
+        <span class="phase-tag bg3 c3">CQRS</span>
+        <span class="phase-tag bg3 c3">MediatR</span>
+        <span class="phase-tag bg3 c3">Anti-Corruption Layer</span>
+      </div>
+    </div>
+    <span class="phase-toggle">▾</span>
+  </div>
+  <div class="phase-body">
+    <div class="topic-grid">
+      <div class="topic-card">
+        <div class="topic-card-header">
+          <span class="topic-icon">🧅</span>
+          <span class="topic-name">Clean Architecture</span>
+          <span class="topic-priority priority-core">CORE</span>
+        </div>
+        <div class="topic-desc">Dependency rule (layers depend inward only), Domain / Application / Infrastructure / Presentation layers, interface inversion, use-case driven design.</div>
+        <ul class="resource-list">
+          <li><a href="https://github.com/jasontaylordev/CleanArchitecture" target="_blank">Jason Taylor's Clean Arch Template (GitHub) <span class="resource-type rt-repo">REPO</span></a></li>
+          <li><a href="https://ardalis.com/clean-architecture-asp-net-core/" target="_blank">ardalis.com — Clean Architecture Articles <span class="resource-type rt-blog">BLOG</span></a></li>
+          <li><a href="https://dotnet.microsoft.com/en-us/learn/dotnet/architecture-guides" target="_blank">Microsoft Architecture Guides (free eBooks) <span class="resource-type rt-book">FREE BOOK</span></a></li>
+          <li><a href="https://www.youtube.com/watch?v=dK4Yb6-LxAk" target="_blank">Clean Architecture — Milan Jovanović <span class="resource-type rt-video">VIDEO</span></a></li>
+        </ul>
+      </div>
+      <div class="topic-card">
+        <div class="topic-card-header">
+          <span class="topic-icon">🗺️</span>
+          <span class="topic-name">Domain-Driven Design</span>
+          <span class="topic-priority priority-core">CORE</span>
+        </div>
+        <div class="topic-desc">Ubiquitous language, bounded contexts, aggregates, entities vs value objects, domain events, domain services. Focus on tactical DDD patterns with C#.</div>
+        <ul class="resource-list">
+          <li><a href="https://www.domainlanguage.com/ddd/blue-book/" target="_blank">DDD Reference — Eric Evans (free PDF) <span class="resource-type rt-book">FREE BOOK</span></a></li>
+          <li><a href="https://www.youtube.com/watch?v=Q9zBMrSYzgQ" target="_blank">DDD in Practice — Milan Jovanović <span class="resource-type rt-video">VIDEO</span></a></li>
+          <li><a href="https://github.com/dotnet-architecture/eShopOnContainers" target="_blank">eShopOnContainers — Microsoft DDD reference <span class="resource-type rt-repo">REPO</span></a></li>
+        </ul>
+      </div>
+      <div class="topic-card">
+        <div class="topic-card-header">
+          <span class="topic-icon">⚔️</span>
+          <span class="topic-name">CQRS</span>
+          <span class="topic-priority priority-core">CORE</span>
+        </div>
+        <div class="topic-desc">Command/Query separation, separate read and write models, projection, consistency tradeoffs. Simple CQRS vs Event Sourced CQRS. Implement with MediatR IRequest/IRequestHandler.</div>
+        <ul class="resource-list">
+          <li><a href="https://martinfowler.com/bliki/CQRS.html" target="_blank">CQRS — Martin Fowler <span class="resource-type rt-blog">BLOG</span></a></li>
+          <li><a href="https://www.youtube.com/watch?v=vdi-p9StmV8" target="_blank">CQRS with MediatR — Nick Chapsas <span class="resource-type rt-video">VIDEO</span></a></li>
+          <li><a href="https://jimmybogard.com/cqrs-with-mediatr-primer/" target="_blank">CQRS with MediatR Primer — Jimmy Bogard <span class="resource-type rt-blog">BLOG</span></a></li>
+        </ul>
+      </div>
+      <div class="topic-card">
+        <div class="topic-card-header">
+          <span class="topic-icon">🛡️</span>
+          <span class="topic-name">Gateway / Anti-Corruption Layer</span>
+          <span class="topic-priority priority-important">KEY</span>
+        </div>
+        <div class="topic-desc">Isolating external services behind interfaces, translation layer, preventing external model leaking into domain. Combines Adapter + Facade patterns from Phase 0.</div>
+        <ul class="resource-list">
+          <li><a href="https://learn.microsoft.com/en-us/azure/architecture/patterns/anti-corruption-layer" target="_blank">Anti-Corruption Layer — Azure Architecture <span class="resource-type rt-doc">DOCS</span></a></li>
+          <li><a href="https://martinfowler.com/eaaCatalog/gateway.html" target="_blank">Gateway Pattern — Martin Fowler <span class="resource-type rt-blog">BLOG</span></a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="interview-tip">In architecture interviews, always explain the <em>tradeoff</em>. "Clean Architecture adds boilerplate — here's when that overhead is worth it vs. when a simpler approach is better."</div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ PHASE 4 (TESTING — moved up) -->
+<div class="phase" id="phase4">
+  <div class="phase-header b4" onclick="togglePhase(this)">
+    <div class="phase-num bg4 c4">Phase 4 <span style="font-size:10px;opacity:0.7">(was Phase 5)</span></div>
+    <div class="phase-title-wrap">
+      <div class="phase-title">Testing & Quality</div>
+      <div class="phase-subtitle">Prove behavior — write tests that survive refactoring, not tests that just cover lines</div>
+      <div class="phase-tags">
+        <span class="phase-tag bg4 c4">xUnit</span>
+        <span class="phase-tag bg4 c4">Moq</span>
+        <span class="phase-tag bg4 c4">Integration Tests</span>
+        <span class="phase-tag bg4 c4">Test Doubles</span>
+      </div>
+    </div>
+    <span class="phase-toggle">▾</span>
+  </div>
+  <div class="phase-body">
+    <div class="topic-grid">
+      <div class="topic-card">
+        <div class="topic-card-header">
+          <span class="topic-icon">🧪</span>
+          <span class="topic-name">xUnit</span>
+          <span class="topic-priority priority-core">CORE</span>
+        </div>
+        <div class="topic-desc">Fact/Theory/InlineData, IClassFixture, test output, async tests, test naming conventions (Given/When/Then). AAA pattern (Arrange/Act/Assert).</div>
+        <ul class="resource-list">
+          <li><a href="https://xunit.net/docs/getting-started/netcore/cmdline" target="_blank">xUnit.net — Official Getting Started <span class="resource-type rt-doc">DOCS</span></a></li>
+          <li><a href="https://www.youtube.com/watch?v=2Wp8en1I9oQ" target="_blank">Unit Testing with xUnit — Nick Chapsas <span class="resource-type rt-video">VIDEO</span></a></li>
+          <li><a href="https://github.com/xunit/xunit" target="_blank">xUnit GitHub <span class="resource-type rt-repo">REPO</span></a></li>
+        </ul>
+      </div>
+      <div class="topic-card">
+        <div class="topic-card-header">
+          <span class="topic-icon">🎭</span>
+          <span class="topic-name">Moq (Mocking)</span>
+          <span class="topic-priority priority-core">CORE</span>
+        </div>
+        <div class="topic-desc">Mock vs Stub vs Fake, Setup(), Verify(), It.IsAny, Returns, ReturnsAsync, strict vs loose mocks. Know when NOT to mock (avoid mocking what you don't own).</div>
+        <ul class="resource-list">
+          <li><a href="https://github.com/devlooped/moq" target="_blank">Moq — Official GitHub + README <span class="resource-type rt-repo">REPO</span></a></li>
+          <li><a href="https://www.youtube.com/watch?v=M7hr6h9grMM" target="_blank">Moq Full Guide — Nick Chapsas <span class="resource-type rt-video">VIDEO</span></a></li>
+        </ul>
+      </div>
+      <div class="topic-card">
+        <div class="topic-card-header">
+          <span class="topic-icon">🏗️</span>
+          <span class="topic-name">Integration Testing</span>
+          <span class="topic-priority priority-important">KEY</span>
+        </div>
+        <div class="topic-desc">WebApplicationFactory, TestContainers (real PostgreSQL), in-memory vs real database tradeoffs, seeding test data, isolating integration tests.</div>
+        <ul class="resource-list">
+          <li><a href="https://learn.microsoft.com/en-us/aspnet/core/test/integration-tests" target="_blank">Integration Tests — Microsoft Docs <span class="resource-type rt-doc">DOCS</span></a></li>
+          <li><a href="https://www.youtube.com/watch?v=E4TeWBFzcCw" target="_blank">Integration Testing with TestContainers — Nick Chapsas <span class="resource-type rt-video">VIDEO</span></a></li>
+          <li><a href="https://testcontainers.com/guides/getting-started-with-testcontainers-for-dotnet/" target="_blank">TestContainers for .NET — Official Guide <span class="resource-type rt-doc">DOCS</span></a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="interview-tip">Know the testing pyramid: many unit tests, fewer integration tests, minimal E2E. Be ready to explain: "I test behavior, not implementation — if I can refactor without changing tests, the tests are good."</div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ PHASE 5 (SECURITY — moved from Phase 4) -->
+<div class="phase" id="phase5">
+  <div class="phase-header b5" onclick="togglePhase(this)">
+    <div class="phase-num bg5 c5">Phase 5 <span style="font-size:10px;opacity:0.7">(was Phase 4)</span></div>
+    <div class="phase-title-wrap">
+      <div class="phase-title">Security & Identity</div>
+      <div class="phase-subtitle">Before you expose real APIs — understand auth flows end-to-end</div>
+      <div class="phase-tags">
+        <span class="phase-tag bg5 c5">JWT</span>
+        <span class="phase-tag bg5 c5">OAuth 2.0</span>
+        <span class="phase-tag bg5 c5">OpenID Connect</span>
+        <span class="phase-tag bg5 c5">Refresh Tokens</span>
+      </div>
+    </div>
+    <span class="phase-toggle">▾</span>
+  </div>
+  <div class="phase-body">
+    <div class="topic-grid">
+      <div class="topic-card">
+        <div class="topic-card-header">
+          <span class="topic-icon">🎟️</span>
+          <span class="topic-name">JWT Tokens</span>
+          <span class="topic-priority priority-core">CORE</span>
+        </div>
+        <div class="topic-desc">Header/Payload/Signature, signing vs encryption, token expiry, refresh token rotation, revocation strategies, storing tokens securely (httpOnly cookie vs localStorage).</div>
+        <ul class="resource-list">
+          <li><a href="https://jwt.io/introduction" target="_blank">JWT.io — Interactive Debugger + Guide <span class="resource-type rt-doc">DOCS</span></a></li>
+          <li><a href="https://learn.microsoft.com/en-us/aspnet/core/security/authentication/jwt-authn" target="_blank">JWT in ASP.NET Core — Microsoft Docs <span class="resource-type rt-doc">DOCS</span></a></li>
+          <li><a href="https://www.youtube.com/watch?v=mgeuh8k3I4g" target="_blank">JWT Authentication — Nick Chapsas <span class="resource-type rt-video">VIDEO</span></a></li>
+        </ul>
+      </div>
+      <div class="topic-card">
+        <div class="topic-card-header">
+          <span class="topic-icon">🔑</span>
+          <span class="topic-name">OAuth 2.0 & OIDC</span>
+          <span class="topic-priority priority-core">CORE</span>
+        </div>
+        <div class="topic-desc">Authorization Code Flow (with PKCE), Client Credentials, implicit flow (deprecated), scopes/claims, Google/Facebook social login, token introspection.</div>
+        <ul class="resource-list">
+          <li><a href="https://auth0.com/docs/get-started/authentication-and-authorization-flow" target="_blank">Auth0 — OAuth 2.0 Flows (free docs) <span class="resource-type rt-doc">DOCS</span></a></li>
+          <li><a href="https://www.oauth.com/" target="_blank">oauth.com — Aaron Parecki's OAuth Guide <span class="resource-type rt-book">FREE BOOK</span></a></li>
+          <li><a href="https://learn.microsoft.com/en-us/aspnet/core/security/authentication/social/" target="_blank">Social Login in ASP.NET Core — Microsoft Docs <span class="resource-type rt-doc">DOCS</span></a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="interview-tip">Draw the Authorization Code Flow + PKCE from memory. Know the difference between authentication (who are you?) and authorization (what can you do?). Know what a claim is vs a scope.</div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ PHASE 6 -->
+<div class="phase" id="phase6">
+  <div class="phase-header b6" onclick="togglePhase(this)">
+    <div class="phase-num bg6 c6">Phase 6</div>
+    <div class="phase-title-wrap">
+      <div class="phase-title">Observability & Operations</div>
+      <div class="phase-subtitle">Know what's happening in production — structured logging, search, alerting</div>
+      <div class="phase-tags">
+        <span class="phase-tag bg6 c6">Serilog</span>
+        <span class="phase-tag bg6 c6">NLog</span>
+        <span class="phase-tag bg6 c6">Kibana</span>
+        <span class="phase-tag bg6 c6">Structured Logging</span>
+        <span class="phase-tag bg6 c6">Grafana</span>
+        <span class="phase-tag bg6 c6">Sentry</span>
+      </div>
+    </div>
+    <span class="phase-toggle">▾</span>
+  </div>
+  <div class="phase-body">
+    <div class="topic-grid">
+      <div class="topic-card">
+        <div class="topic-card-header">
+          <span class="topic-icon">📝</span>
+          <span class="topic-name">Serilog (Primary)</span>
+          <span class="topic-priority priority-core">CORE</span>
+        </div>
+        <div class="topic-desc">Structured logging vs text logging, sinks (Console, File, Seq, Elasticsearch), enrichers, minimum level, output templates, correlation IDs via middleware.</div>
+        <ul class="resource-list">
+          <li><a href="https://serilog.net/" target="_blank">Serilog — Official Documentation <span class="resource-type rt-doc">DOCS</span></a></li>
+          <li><a href="https://www.youtube.com/watch?v=nVAkSBpsuTk" target="_blank">Serilog in ASP.NET Core — Nick Chapsas <span class="resource-type rt-video">VIDEO</span></a></li>
+          <li><a href="https://datalust.co/seq" target="_blank">Seq — Free local structured log viewer <span class="resource-type rt-doc">TOOL</span></a></li>
+        </ul>
+      </div>
+      <div class="topic-card">
+        <div class="topic-card-header">
+          <span class="topic-icon">📊</span>
+          <span class="topic-name">Kibana + ELK Stack</span>
+          <span class="topic-priority priority-important">KEY</span>
+        </div>
+        <div class="topic-desc">Index patterns, KQL queries, dashboards for log search, alerting rules. Understand the Elasticsearch → Logstash → Kibana flow conceptually for interviews.</div>
+        <ul class="resource-list">
+          <li><a href="https://www.elastic.co/training/free" target="_blank">Elastic Free Training — Official <span class="resource-type rt-course">COURSE</span></a></li>
+          <li><a href="https://www.youtube.com/watch?v=ZP0NmfyfsoM" target="_blank">ELK Stack for Beginners — TechWorld with Nana <span class="resource-type rt-video">VIDEO</span></a></li>
+        </ul>
+      </div>
+      <div class="topic-card">
+        <div class="topic-card-header">
+          <span class="topic-icon">📈</span>
+          <span class="topic-name">Grafana + Sentry</span>
+          <span class="topic-priority priority-nice">TOOL</span>
+        </div>
+        <div class="topic-desc">Grafana for metrics dashboards (Prometheus integration), Sentry for error tracking + alerting. Learn enough to use them, not administer them.</div>
+        <ul class="resource-list">
+          <li><a href="https://grafana.com/tutorials/" target="_blank">Grafana — Free Tutorials <span class="resource-type rt-course">COURSE</span></a></li>
+          <li><a href="https://docs.sentry.io/platforms/dotnet/" target="_blank">Sentry for .NET — Official Docs <span class="resource-type rt-doc">DOCS</span></a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="interview-tip">Pick Serilog as your primary. Know why structured logging (JSON logs with searchable fields) beats plain text logs. "I can find all errors for OrderId=123 across 50 services" is a killer answer.</div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ PHASE 7 -->
+<div class="phase" id="phase7">
+  <div class="phase-header b7" onclick="togglePhase(this)">
+    <div class="phase-num bg7 c7">Phase 7</div>
+    <div class="phase-title-wrap">
+      <div class="phase-title">Caching & Performance</div>
+      <div class="phase-subtitle">Reduce cost and improve latency with strategic caching patterns</div>
+      <div class="phase-tags">
+        <span class="phase-tag bg7 c7">Redis</span>
+        <span class="phase-tag bg7 c7">Cache-Aside</span>
+        <span class="phase-tag bg7 c7">Distributed Cache</span>
+        <span class="phase-tag bg7 c7">Cache Invalidation</span>
+      </div>
+    </div>
+    <span class="phase-toggle">▾</span>
+  </div>
+  <div class="phase-body">
+    <div class="topic-grid">
+      <div class="topic-card">
+        <div class="topic-card-header">
+          <span class="topic-icon">⚡</span>
+          <span class="topic-name">Redis</span>
+          <span class="topic-priority priority-core">CORE</span>
+        </div>
+        <div class="topic-desc">Data types (string, hash, list, set, sorted set), TTL, cache-aside pattern, pub/sub, distributed locking (Redlock), StackExchange.Redis, IDistributedCache in ASP.NET Core.</div>
+        <ul class="resource-list">
+          <li><a href="https://university.redis.com/" target="_blank">Redis University — Free Official Courses <span class="resource-type rt-course">COURSE</span></a></li>
+          <li><a href="https://learn.microsoft.com/en-us/aspnet/core/performance/caching/distributed" target="_blank">Distributed Caching — Microsoft Docs <span class="resource-type rt-doc">DOCS</span></a></li>
+          <li><a href="https://www.youtube.com/watch?v=jgpVdJB2sKQ" target="_blank">Redis in .NET — Nick Chapsas <span class="resource-type rt-video">VIDEO</span></a></li>
+        </ul>
+      </div>
+      <div class="topic-card">
+        <div class="topic-card-header">
+          <span class="topic-icon">🧩</span>
+          <span class="topic-name">Caching Patterns</span>
+          <span class="topic-priority priority-core">CORE</span>
+        </div>
+        <div class="topic-desc">Cache-aside vs write-through vs write-behind, cache stampede (thundering herd), cache eviction policies (LRU/LFU), cache invalidation strategies. The hardest problem in CS — literally.</div>
+        <ul class="resource-list">
+          <li><a href="https://caching-strategies.vercel.app/" target="_blank">Caching Strategies — Visual Guide <span class="resource-type rt-blog">BLOG</span></a></li>
+          <li><a href="https://learn.microsoft.com/en-us/azure/architecture/best-practices/caching" target="_blank">Caching Best Practices — Azure Docs <span class="resource-type rt-doc">DOCS</span></a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="interview-tip">"Cache invalidation is one of the two hard problems in CS." Be ready to discuss stale data tradeoffs and explain cache stampede and how to prevent it with probabilistic early recomputation or locking.</div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ PHASE 8 -->
+<div class="phase" id="phase8">
+  <div class="phase-header b8" onclick="togglePhase(this)">
+    <div class="phase-num bg8 c8">Phase 8</div>
+    <div class="phase-title-wrap">
+      <div class="phase-title">Event-Driven & Messaging</div>
+      <div class="phase-subtitle">Move from "a service" to "a system" — decouple with messages</div>
+      <div class="phase-tags">
+        <span class="phase-tag bg8 c8">RabbitMQ</span>
+        <span class="phase-tag bg8 c8">Kafka</span>
+        <span class="phase-tag bg8 c8">SAGA Pattern</span>
+        <span class="phase-tag bg8 c8">Inbox/Outbox</span>
+        <span class="phase-tag bg8 c8">CAP Theorem</span>
+        <span class="phase-tag bg8 c8">Kafka HA Proxy</span>
+      </div>
+    </div>
+    <span class="phase-toggle">▾</span>
+  </div>
+  <div class="phase-body">
+    <div class="topic-grid">
+      <div class="topic-card">
+        <div class="topic-card-header">
+          <span class="topic-icon">🐇</span>
+          <span class="topic-name">RabbitMQ</span>
+          <span class="topic-priority priority-core">CORE</span>
+        </div>
+        <div class="topic-desc">Exchanges (direct/topic/fanout/headers), queues, bindings, routing keys, ACK/NACK, dead letter queues, publisher confirms, MassTransit abstraction layer.</div>
+        <ul class="resource-list">
+          <li><a href="https://www.rabbitmq.com/tutorials/tutorial-one-dotnet" target="_blank">RabbitMQ .NET Tutorials — Official <span class="resource-type rt-course">COURSE</span></a></li>
+          <li><a href="https://masstransit.io/documentation/getting-started" target="_blank">MassTransit — Getting Started (free) <span class="resource-type rt-doc">DOCS</span></a></li>
+          <li><a href="https://www.youtube.com/watch?v=NlYHIFo_tQY" target="_blank">RabbitMQ for Beginners — TechWorld with Nana <span class="resource-type rt-video">VIDEO</span></a></li>
+        </ul>
+      </div>
+      <div class="topic-card">
+        <div class="topic-card-header">
+          <span class="topic-icon">🌊</span>
+          <span class="topic-name">Apache Kafka</span>
+          <span class="topic-priority priority-core">CORE</span>
+        </div>
+        <div class="topic-desc">Topics, partitions, consumer groups, offsets, retention, compaction, at-least-once delivery, idempotent producers, Kafka vs RabbitMQ tradeoffs. Know when to pick which.</div>
+        <ul class="resource-list">
+          <li><a href="https://developer.confluent.io/learn-kafka/" target="_blank">Confluent Kafka 101 — Free Course <span class="resource-type rt-course">COURSE</span></a></li>
+          <li><a href="https://www.youtube.com/watch?v=aj9CDZm0Glc" target="_blank">Kafka for Beginners — TechWorld with Nana <span class="resource-type rt-video">VIDEO</span></a></li>
+          <li><a href="https://kafka.apache.org/documentation/" target="_blank">Kafka Official Documentation <span class="resource-type rt-doc">DOCS</span></a></li>
+        </ul>
+      </div>
+      <div class="topic-card">
+        <div class="topic-card-header">
+          <span class="topic-icon">🔄</span>
+          <span class="topic-name">SAGA Pattern</span>
+          <span class="topic-priority priority-core">CORE</span>
+        </div>
+        <div class="topic-desc">Choreography vs Orchestration SAGAs, compensating transactions, rollback strategies, distributed transactions without 2PC. Heavily asked in senior interviews.</div>
+        <ul class="resource-list">
+          <li><a href="https://microservices.io/patterns/data/saga.html" target="_blank">SAGA Pattern — microservices.io (Chris Richardson) <span class="resource-type rt-blog">BLOG</span></a></li>
+          <li><a href="https://www.youtube.com/watch?v=d2mKs_iyBMY" target="_blank">SAGA Pattern Explained — Milan Jovanović <span class="resource-type rt-video">VIDEO</span></a></li>
+        </ul>
+      </div>
+      <div class="topic-card">
+        <div class="topic-card-header">
+          <span class="topic-icon">📬</span>
+          <span class="topic-name">Inbox / Outbox Pattern</span>
+          <span class="topic-priority priority-core">CORE</span>
+        </div>
+        <div class="topic-desc">Transactional outbox: write event to DB in same transaction as domain change, then relay to broker. Inbox: idempotent message processing. Prevents dual write problem.</div>
+        <ul class="resource-list">
+          <li><a href="https://microservices.io/patterns/data/transactional-outbox.html" target="_blank">Transactional Outbox — microservices.io <span class="resource-type rt-blog">BLOG</span></a></li>
+          <li><a href="https://www.youtube.com/watch?v=XALvnX7MPeo" target="_blank">Outbox Pattern in .NET — Milan Jovanović <span class="resource-type rt-video">VIDEO</span></a></li>
+        </ul>
+      </div>
+      <div class="topic-card">
+        <div class="topic-card-header">
+          <span class="topic-icon">⚖️</span>
+          <span class="topic-name">CAP Theorem</span>
+          <span class="topic-priority priority-core">CORE</span>
+        </div>
+        <div class="topic-desc">Consistency, Availability, Partition Tolerance — choose 2. CA/CP/AP systems. PACELC extension. Eventual consistency and its guarantees. Senior-level interview cornerstone.</div>
+        <ul class="resource-list">
+          <li><a href="https://www.ibm.com/topics/cap-theorem" target="_blank">CAP Theorem — IBM Explanation <span class="resource-type rt-blog">BLOG</span></a></li>
+          <li><a href="https://martin.kleppmann.com/2015/05/11/please-stop-calling-databases-cp-or-ap.html" target="_blank">Stop calling DBs CP or AP — Martin Kleppmann <span class="resource-type rt-blog">BLOG</span></a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="interview-tip">RabbitMQ vs Kafka is a famous interview question. Short answer: RabbitMQ = smart broker/dumb consumer (routing, complex topologies). Kafka = dumb broker/smart consumer (log replay, high throughput, ordering per partition).</div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ PHASE 9 -->
+<div class="phase" id="phase9">
+  <div class="phase-header b9" onclick="togglePhase(this)">
+    <div class="phase-num bg9 c9">Phase 9</div>
+    <div class="phase-title-wrap">
+      <div class="phase-title">Inter-Service Communication</div>
+      <div class="phase-subtitle">Sync + edge — gRPC, proxies, load balancing, real-time</div>
+      <div class="phase-tags">
+        <span class="phase-tag bg9 c9">gRPC</span>
+        <span class="phase-tag bg9 c9">YARP</span>
+        <span class="phase-tag bg9 c9">Load Balancing</span>
+        <span class="phase-tag bg9 c9">SignalR</span>
+        <span class="phase-tag bg9 c9">HAProxy</span>
+      </div>
+    </div>
+    <span class="phase-toggle">▾</span>
+  </div>
+  <div class="phase-body">
+    <div class="topic-grid">
+      <div class="topic-card">
+        <div class="topic-card-header">
+          <span class="topic-icon">🔌</span>
+          <span class="topic-name">gRPC</span>
+          <span class="topic-priority priority-core">CORE</span>
+        </div>
+        <div class="topic-desc">Protocol Buffers, unary/server-streaming/client-streaming/bidirectional, code generation, gRPC vs REST tradeoffs, gRPC-Web for browsers, Protobuf versioning.</div>
+        <ul class="resource-list">
+          <li><a href="https://grpc.io/docs/languages/csharp/quickstart/" target="_blank">gRPC .NET Quick Start — Official <span class="resource-type rt-doc">DOCS</span></a></li>
+          <li><a href="https://learn.microsoft.com/en-us/aspnet/core/grpc/" target="_blank">gRPC in ASP.NET Core — Microsoft Docs <span class="resource-type rt-doc">DOCS</span></a></li>
+          <li><a href="https://www.youtube.com/watch?v=QyxCX2GYHxk" target="_blank">gRPC in .NET — Nick Chapsas <span class="resource-type rt-video">VIDEO</span></a></li>
+        </ul>
+      </div>
+      <div class="topic-card">
+        <div class="topic-card-header">
+          <span class="topic-icon">🔀</span>
+          <span class="topic-name">YARP Reverse Proxy</span>
+          <span class="topic-priority priority-important">KEY</span>
+        </div>
+        <div class="topic-desc">Reverse proxy vs forward proxy, YARP configuration (routes + clusters), transforms, middleware integration, API gateway patterns in .NET.</div>
+        <ul class="resource-list">
+          <li><a href="https://microsoft.github.io/reverse-proxy/" target="_blank">YARP — Official Microsoft Docs <span class="resource-type rt-doc">DOCS</span></a></li>
+          <li><a href="https://www.youtube.com/watch?v=Kz3Wy5AEbYc" target="_blank">YARP Reverse Proxy — Milan Jovanović <span class="resource-type rt-video">VIDEO</span></a></li>
+        </ul>
+      </div>
+      <div class="topic-card">
+        <div class="topic-card-header">
+          <span class="topic-icon">⚖️</span>
+          <span class="topic-name">Load Balancing</span>
+          <span class="topic-priority priority-important">KEY</span>
+        </div>
+        <div class="topic-desc">Round-robin, least connections, IP hash, health checks, L4 vs L7 load balancing, sticky sessions, HAProxy configuration basics.</div>
+        <ul class="resource-list">
+          <li><a href="https://www.haproxy.com/documentation/haproxy-configuration-tutorials/core-concepts/overview/" target="_blank">HAProxy Configuration — Official Tutorials <span class="resource-type rt-doc">DOCS</span></a></li>
+          <li><a href="https://samwho.dev/load-balancing/" target="_blank">Load Balancing — Visual Interactive Guide <span class="resource-type rt-blog">BLOG</span></a></li>
+        </ul>
+      </div>
+      <div class="topic-card">
+        <div class="topic-card-header">
+          <span class="topic-icon">📡</span>
+          <span class="topic-name">SignalR</span>
+          <span class="topic-priority priority-important">KEY</span>
+        </div>
+        <div class="topic-desc">WebSockets, Server-Sent Events, long polling fallback, hubs, groups, scale-out with Redis backplane, strongly-typed hubs, connection lifecycle.</div>
+        <ul class="resource-list">
+          <li><a href="https://learn.microsoft.com/en-us/aspnet/core/signalr/introduction" target="_blank">SignalR Introduction — Microsoft Docs <span class="resource-type rt-doc">DOCS</span></a></li>
+          <li><a href="https://www.youtube.com/watch?v=hhMHzKFEXe8" target="_blank">SignalR in ASP.NET Core — IAmTimCorey <span class="resource-type rt-video">VIDEO</span></a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ PHASE 10 -->
+<div class="phase" id="phase10">
+  <div class="phase-header b10" onclick="togglePhase(this)">
+    <div class="phase-num bg10 c10">Phase 10</div>
+    <div class="phase-title-wrap">
+      <div class="phase-title">Containers & Orchestration</div>
+      <div class="phase-subtitle">Make it real in production — containerize, deploy, operate</div>
+      <div class="phase-tags">
+        <span class="phase-tag bg10 c10">Docker</span>
+        <span class="phase-tag bg10 c10">Kubernetes</span>
+        <span class="phase-tag bg10 c10">ArgoCD</span>
+        <span class="phase-tag bg10 c10">AWS</span>
+        <span class="phase-tag bg10 c10">SonarQube</span>
+      </div>
+    </div>
+    <span class="phase-toggle">▾</span>
+  </div>
+  <div class="phase-body">
+    <div class="topic-grid">
+      <div class="topic-card">
+        <div class="topic-card-header">
+          <span class="topic-icon">🐳</span>
+          <span class="topic-name">Docker</span>
+          <span class="topic-priority priority-core">CORE</span>
+        </div>
+        <div class="topic-desc">Dockerfile multi-stage builds, layer caching, docker-compose for local dev, networking, volumes, .dockerignore, distroless images for production security.</div>
+        <ul class="resource-list">
+          <li><a href="https://docs.docker.com/guides/getting-started/" target="_blank">Docker Getting Started — Official Docs <span class="resource-type rt-doc">DOCS</span></a></li>
+          <li><a href="https://labs.play-with-docker.com/" target="_blank">Play With Docker — Free Browser Lab <span class="resource-type rt-course">COURSE</span></a></li>
+          <li><a href="https://www.youtube.com/watch?v=3c-iBn73dDE" target="_blank">Docker Full Course — TechWorld with Nana <span class="resource-type rt-video">VIDEO</span></a></li>
+        </ul>
+      </div>
+      <div class="topic-card">
+        <div class="topic-card-header">
+          <span class="topic-icon">☸️</span>
+          <span class="topic-name">Kubernetes</span>
+          <span class="topic-priority priority-core">CORE</span>
+        </div>
+        <div class="topic-desc">Pods, Deployments, Services, ConfigMaps, Secrets, Ingress, HPA, namespaces, kubectl. Enough to deploy a .NET app + understand what ops does with it.</div>
+        <ul class="resource-list">
+          <li><a href="https://kubernetes.io/docs/tutorials/kubernetes-basics/" target="_blank">Kubernetes Basics — Official Tutorial <span class="resource-type rt-doc">DOCS</span></a></li>
+          <li><a href="https://www.youtube.com/watch?v=X48VuDVv0do" target="_blank">Kubernetes Full Course — TechWorld with Nana <span class="resource-type rt-video">VIDEO</span></a></li>
+          <li><a href="https://killercoda.com/kubernetes" target="_blank">Killercoda — Free K8s Browser Labs <span class="resource-type rt-course">COURSE</span></a></li>
+        </ul>
+      </div>
+      <div class="topic-card">
+        <div class="topic-card-header">
+          <span class="topic-icon">🔁</span>
+          <span class="topic-name">ArgoCD (GitOps)</span>
+          <span class="topic-priority priority-important">KEY</span>
+        </div>
+        <div class="topic-desc">GitOps model, declarative deployments, sync strategies, application of record vs source of truth, rollback. Increasingly asked in DevOps-aware interviews.</div>
+        <ul class="resource-list">
+          <li><a href="https://argo-cd.readthedocs.io/en/stable/getting_started/" target="_blank">ArgoCD Getting Started — Official Docs <span class="resource-type rt-doc">DOCS</span></a></li>
+          <li><a href="https://www.youtube.com/watch?v=MeU5_k9ssrs" target="_blank">ArgoCD Tutorial — TechWorld with Nana <span class="resource-type rt-video">VIDEO</span></a></li>
+        </ul>
+      </div>
+      <div class="topic-card">
+        <div class="topic-card-header">
+          <span class="topic-icon">☁️</span>
+          <span class="topic-name">AWS Fundamentals</span>
+          <span class="topic-priority priority-important">KEY</span>
+        </div>
+        <div class="topic-desc">EC2, S3, RDS, ECS/EKS, Lambda, SQS, SNS, IAM roles, VPC basics. AWS Cloud Practitioner is free to study — gives strong interview vocabulary.</div>
+        <ul class="resource-list">
+          <li><a href="https://aws.amazon.com/training/digital/" target="_blank">AWS Digital Training — Free Courses <span class="resource-type rt-course">COURSE</span></a></li>
+          <li><a href="https://www.youtube.com/watch?v=SOTamWNgDKc" target="_blank">AWS Full Course — freeCodeCamp <span class="resource-type rt-video">VIDEO</span></a></li>
+        </ul>
+      </div>
+      <div class="topic-card">
+        <div class="topic-card-header">
+          <span class="topic-icon">🔍</span>
+          <span class="topic-name">SonarQube / Code Quality</span>
+          <span class="topic-priority priority-nice">TOOL</span>
+        </div>
+        <div class="topic-desc">Static analysis, code smells, security hotspots, technical debt tracking. Community edition is free — integrate with CI pipeline.</div>
+        <ul class="resource-list">
+          <li><a href="https://docs.sonarsource.com/sonarqube/latest/" target="_blank">SonarQube — Official Docs <span class="resource-type rt-doc">DOCS</span></a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div><!-- end main -->
+
+<!-- TOOLS SECTION -->
+<div class="tools-section" id="tools">
+  <div class="tools-header">
+    <h2>🛠 Tools Map — Phase-by-Phase</h2>
+    <p>Each tool mapped to the phase where it becomes relevant. Learn tools in context, not in isolation.</p>
+  </div>
+  <div class="tools-grid">
+    <div class="tool-item">
+      <div class="tool-name">Vault</div>
+      <div class="tool-phase">Phase 5 — Security</div>
+      <div class="tool-desc">Secrets management. Store JWT keys, DB credentials. Don't hardcode secrets.</div>
+      <a class="tool-link" href="https://developer.hashicorp.com/vault/tutorials" target="_blank">↗ Free Tutorials</a>
+    </div>
+    <div class="tool-item">
+      <div class="tool-name">Kibana</div>
+      <div class="tool-phase">Phase 6 — Observability</div>
+      <div class="tool-desc">Log search + operational debugging dashboard for Elasticsearch-ingested logs.</div>
+      <a class="tool-link" href="https://www.elastic.co/training/free" target="_blank">↗ Free Training</a>
+    </div>
+    <div class="tool-item">
+      <div class="tool-name">Grafana</div>
+      <div class="tool-phase">Phase 6 — Observability</div>
+      <div class="tool-desc">Metrics dashboards, Prometheus integration, alerting rules.</div>
+      <a class="tool-link" href="https://grafana.com/tutorials/" target="_blank">↗ Free Tutorials</a>
+    </div>
+    <div class="tool-item">
+      <div class="tool-name">Sentry</div>
+      <div class="tool-phase">Phase 6 — Observability</div>
+      <div class="tool-desc">Error tracking, performance monitoring, release health. Free tier available.</div>
+      <a class="tool-link" href="https://docs.sentry.io/platforms/dotnet/" target="_blank">↗ .NET Docs</a>
+    </div>
+    <div class="tool-item">
+      <div class="tool-name">Redgate Monitor</div>
+      <div class="tool-phase">Phase 2 — Data Access</div>
+      <div class="tool-desc">SQL Server / PostgreSQL performance monitoring. Useful for query profiling.</div>
+      <a class="tool-link" href="https://www.red-gate.com/products/sql-monitor/" target="_blank">↗ Product Page</a>
+    </div>
+    <div class="tool-item">
+      <div class="tool-name">Kafka + HAProxy</div>
+      <div class="tool-phase">Phase 8 — Messaging</div>
+      <div class="tool-desc">HAProxy as L4/L7 load balancer in front of Kafka brokers or API services.</div>
+      <a class="tool-link" href="https://www.haproxy.com/documentation/" target="_blank">↗ HAProxy Docs</a>
+    </div>
+    <div class="tool-item">
+      <div class="tool-name">SonarQube</div>
+      <div class="tool-phase">Phase 10 — Containers/CI</div>
+      <div class="tool-desc">Static code analysis, code smells, security hotspots. Community edition free.</div>
+      <a class="tool-link" href="https://docs.sonarsource.com/sonarqube/latest/" target="_blank">↗ Official Docs</a>
+    </div>
+    <div class="tool-item">
+      <div class="tool-name">ArgoCD</div>
+      <div class="tool-phase">Phase 10 — Containers/CI</div>
+      <div class="tool-desc">GitOps continuous delivery for Kubernetes. Declarative app management.</div>
+      <a class="tool-link" href="https://argo-cd.readthedocs.io/" target="_blank">↗ Official Docs</a>
+    </div>
+    <div class="tool-item">
+      <div class="tool-name">PactFlow</div>
+      <div class="tool-phase">Phase 4 — Testing</div>
+      <div class="tool-desc">Consumer-Driven Contract Testing. Validate API compatibility before deploy.</div>
+      <a class="tool-link" href="https://docs.pactflow.io/" target="_blank">↗ Official Docs</a>
+    </div>
+    <div class="tool-item">
+      <div class="tool-name">Stryker.NET</div>
+      <div class="tool-phase">Phase 4 — Testing</div>
+      <div class="tool-desc">Mutation testing — proves your tests actually catch bugs. Free, powerful.</div>
+      <a class="tool-link" href="https://stryker-mutator.io/docs/stryker-net/introduction/" target="_blank">↗ .NET Docs</a>
+    </div>
+    <div class="tool-item">
+      <div class="tool-name">EventCatalog</div>
+      <div class="tool-phase">Phase 8 — Messaging</div>
+      <div class="tool-desc">Document your event-driven architecture — events, schemas, producers/consumers.</div>
+      <a class="tool-link" href="https://www.eventcatalog.dev/docs/introduction" target="_blank">↗ Official Docs</a>
+    </div>
+    <div class="tool-item">
+      <div class="tool-name">GrowthBook</div>
+      <div class="tool-phase">Phase 7 — Caching/Perf</div>
+      <div class="tool-desc">Open-source feature flags + A/B testing. Tie to performance experiments.</div>
+      <a class="tool-link" href="https://docs.growthbook.io/" target="_blank">↗ Official Docs</a>
+    </div>
+    <div class="tool-item">
+      <div class="tool-name">DORA Metrics</div>
+      <div class="tool-phase">Phase 10 — Containers/CI</div>
+      <div class="tool-desc">Deployment frequency, lead time, MTTR, change failure rate. Engineering excellence KPIs.</div>
+      <a class="tool-link" href="https://dora.dev/quickcheck/" target="_blank">↗ DORA Quick Check</a>
+    </div>
+    <div class="tool-item">
+      <div class="tool-name">Diffy</div>
+      <div class="tool-phase">Phase 4 — Testing</div>
+      <div class="tool-desc">Traffic shadowing / response comparison. Test refactored services against originals.</div>
+      <a class="tool-link" href="https://github.com/opendiffy/diffy" target="_blank">↗ GitHub</a>
+    </div>
+    <div class="tool-item">
+      <div class="tool-name">Devport / App.Port</div>
+      <div class="tool-phase">Phase 1 — ASP.NET Core</div>
+      <div class="tool-desc">Port management and local dev tooling. Learn in context of local dev environment setup.</div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <div>
+    <strong>DSA Parallel Track Resources</strong><br>
+    <p>
+      <a href="https://neetcode.io/" target="_blank" style="color:var(--accent)">NeetCode.io</a> (structured roadmap) ·
+      <a href="https://leetcode.com/" target="_blank" style="color:var(--accent)">LeetCode Free Tier</a> ·
+      <a href="https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-fall-2011/" target="_blank" style="color:var(--accent)">MIT 6.006</a> ·
+      <a href="https://www.youtube.com/c/BackToBackSWE" target="_blank" style="color:var(--accent)">Back To Back SWE</a>
+    </p>
+  </div>
+  <div style="text-align:right">
+    <p><strong>Top YouTube Channels for .NET</strong></p>
+    <p style="margin-top:4px">
+      <a href="https://www.youtube.com/@nickchapsas" style="color:var(--accent)" target="_blank">Nick Chapsas</a> ·
+      <a href="https://www.youtube.com/@MilanJovanovicTech" style="color:var(--accent)" target="_blank">Milan Jovanović</a> ·
+      <a href="https://www.youtube.com/c/IAmTimCorey" style="color:var(--accent)" target="_blank">IAmTimCorey</a> ·
+      <a href="https://www.youtube.com/@TechWorldwithNana" style="color:var(--accent)" target="_blank">TechWorld with Nana</a>
+    </p>
+  </div>
+</div>
+
+<script>
+  function togglePhase(header) {
+    const phase = header.closest('.phase');
+    phase.classList.toggle('collapsed');
+  }
+</script>
+
+</body>
+</html>
